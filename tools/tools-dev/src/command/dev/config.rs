@@ -5,7 +5,7 @@ use std::{
 };
 
 use clap::{Args, Subcommand};
-use nexus_config::constants::{CONFIG_ENV_PATH, CONFIG_ENV_PREFIX, CONFIG_SEPARATOR};
+use nexus_api::config::constants::{CONFIG_ENV_PATH, CONFIG_ENV_PREFIX, CONFIG_SEPARATOR};
 
 use crate::LOG_TARGET;
 
@@ -91,7 +91,7 @@ pub(crate) fn compile_to_env_from_bases(force: bool) -> anyhow::Result<()> {
         "saved config to {}",
         path.display()
     );
-    dotenvy::from_path(nexus_config::constants::CONFIG_ENV_PATH)?;
+    dotenvy::from_path(nexus_api::config::constants::CONFIG_ENV_PATH)?;
 
     Ok(())
 }

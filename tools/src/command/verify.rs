@@ -6,11 +6,11 @@ use std::{
 
 use anyhow::Context;
 use ark_serialize::CanonicalDeserialize;
-use nexus_config::{
+use nexus_api::config::{
     vm::{NovaImpl, ProverImpl, VmConfig},
     Config,
 };
-use nexus_prover::types::{ComPCDNode, ComPP, ComProof, IVCProof, PCDNode, ParPP, SeqPP};
+use nexus_api::prover::types::{ComPCDNode, ComPP, ComProof, IVCProof, PCDNode, ParPP, SeqPP};
 use nexus_tools_dev::command::common::{
     prove::{CommonProveArgs, LocalProveArgs},
     public_params::format_params_file,
@@ -88,11 +88,11 @@ fn verify_proof_compressed(
 
     let result = {
         let proof = ComProof::deserialize_compressed(reader)?;
-        let params = nexus_prover::pp::gen_or_load(false, k, &pp_path, None)?;
-        let key = nexus_prover::key::gen_or_load_key(false, &key_path, Some(&pp_path), None)?;
+        let params = nexus_api::prover::pp::gen_or_load(false, k, &pp_path, None)?;
+        let key = nexus_api::prover::key::gen_or_load_key(false, &key_path, Some(&pp_path), None)?;
 
         _guard = ctx.display_step();
-        nexus_prover::verify_compressed(&key, &params, &proof).map_err(anyhow::Error::from)
+        nexus_api::prover::verify_compressed(&key, &params, &proof).map_err(anyhow::Error::from)
     };
 
     match result {
@@ -163,21 +163,21 @@ fn verify_proof(
     let result = match nova_impl {
         NovaImpl::Parallel => {
             let root = PCDNode::deserialize_compressed(reader)?;
-            let params: ParPP = nexus_prover::pp::gen_or_load(false, k, &path, None)?;
+            let params: ParPP = nexus_api::prover::pp::gen_or_load(false, k, &path, None)?;
 
             _guard = ctx.display_step();
             root.verify(&params).map_err(anyhow::Error::from)
         }
         NovaImpl::ParallelCompressible => {
             let root = ComPCDNode::deserialize_compressed(reader)?;
-            let params: ComPP = nexus_prover::pp::gen_or_load(false, k, &path, None)?;
+            let params: ComPP = nexus_api::prover::pp::gen_or_load(false, k, &path, None)?;
 
             _guard = ctx.display_step();
             root.verify(&params).map_err(anyhow::Error::from)
         }
         NovaImpl::Sequential => {
             let proof = IVCProof::deserialize_compressed(reader)?;
-            let params: SeqPP = nexus_prover::pp::gen_or_load(false, k, &path, None)?;
+            let params: SeqPP = nexus_api::prover::pp::gen_or_load(false, k, &path, None)?;
 
             _guard = ctx.display_step();
             proof

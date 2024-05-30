@@ -1,6 +1,6 @@
 use anyhow::Context;
 
-use nexus_config::{Config, NetworkConfig};
+use nexus_api::config::{Config, NetworkConfig};
 
 use crate::{command::common::RequestArgs, utils::cargo};
 

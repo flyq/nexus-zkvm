@@ -5,8 +5,8 @@ use std::{
 
 use anyhow::Context;
 
-use nexus_config::{vm as vm_config, Config};
-use nexus_prover::srs::get_min_srs_size;
+use nexus_api::config::{vm as vm_config, Config};
+use nexus_api::prover::srs::get_min_srs_size;
 use nexus_tools_dev::command::common::{
     public_params::{format_params_file, format_srs_file},
     spartan_key::{format_key_file, SetupArgs, SpartanSetupAction, SpartanSetupArgs},
@@ -92,7 +92,7 @@ fn spartan_setup_to_file(key_path: &Path, pp_path: &Path, srs_path: &Path) -> an
     let key_path = key_path.to_str().context("path is not valid utf8")?;
     let pp_path_str = pp_path.to_str().context("path is not valid utf8")?;
     let srs_path_str = srs_path.to_str().context("path is not valid utf8")?;
-    nexus_prover::key::gen_key_to_file(pp_path_str, srs_path_str, key_path)?;
+    nexus_api::prover::key::gen_key_to_file(pp_path_str, srs_path_str, key_path)?;
 
     Ok(())
 }

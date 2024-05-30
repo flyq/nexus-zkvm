@@ -8,7 +8,7 @@ use std::path::{Path, PathBuf};
 use anyhow::Context;
 use clap::Subcommand;
 
-use nexus_config::{Config, MiscConfig};
+use nexus_api::config::{Config, MiscConfig};
 
 macro_rules! cargo_manifest_dir_path {
     () => {

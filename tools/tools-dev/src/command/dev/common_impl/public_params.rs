@@ -1,7 +1,7 @@
 use std::path::{Path, PathBuf};
 
 use anyhow::Context;
-use nexus_config::{vm as vm_config, Config};
+use nexus_api::config::{vm as vm_config, Config};
 
 use crate::{
     command::{

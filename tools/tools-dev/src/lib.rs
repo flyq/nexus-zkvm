@@ -33,7 +33,7 @@ pub enum Command {
 pub fn setup_logger() -> tracing::subscriber::DefaultGuard {
     #[cfg(feature = "dev")]
     let _: () = {
-        let _ = dotenvy::from_path(nexus_config::constants::CONFIG_ENV_PATH);
+        let _ = dotenvy::from_path(nexus_api::config::constants::CONFIG_ENV_PATH);
     };
 
     let filter = EnvFilter::builder()

@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use nexus_config::{Config, MiscConfig};
+use nexus_api::config::{Config, MiscConfig};
 use nexus_tools_dev::{command::common::Command as CommonCommand, Command};
 
 pub mod compress;
@@ -56,7 +56,7 @@ pub(crate) fn cache_path() -> anyhow::Result<PathBuf> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use nexus_config::{Config, VmConfig};
+    use nexus_api::config::{Config, VmConfig};
 
     #[test]
     fn env_config() {

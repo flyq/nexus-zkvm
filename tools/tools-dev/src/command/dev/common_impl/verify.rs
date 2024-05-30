@@ -1,6 +1,6 @@
 use std::path::{Path, PathBuf};
 
-use nexus_config::{Config, VmConfig};
+use nexus_api::config::{Config, VmConfig};
 
 use crate::command::{
     common::{prove::LocalProveArgs, VerifyArgs},

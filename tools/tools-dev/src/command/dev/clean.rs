@@ -1,6 +1,6 @@
 use std::{fs, io};
 
-use nexus_config::constants::{CONFIG_ENV_PATH, CONFIG_FILE_NAME};
+use nexus_api::config::constants::{CONFIG_ENV_PATH, CONFIG_FILE_NAME};
 
 use crate::{command::dev::cache_path, LOG_TARGET};
 

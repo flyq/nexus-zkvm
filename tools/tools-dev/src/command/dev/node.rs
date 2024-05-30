@@ -2,7 +2,7 @@ use std::path::Path;
 
 use anyhow::Context;
 use clap::Args;
-use nexus_config::{Config, NetworkConfig};
+use nexus_api::config::{Config, NetworkConfig};
 
 use crate::{
     command::{
