@@ -12,6 +12,7 @@ members = [
     "spartan",
     "api",
     "api/serde_wrapper",
+    "sdk",
     "jolt",
 ]
 default-members = [
@@ -21,6 +22,7 @@ default-members = [
     "nova",
     "spartan",
     "api",
+    "sdk",
 ]
 exclude = ["nova-benches"]
 
