@@ -2,9 +2,9 @@
 
 use std::{fs::File, io::BufReader, path::Path};
 
+use nexus_api::nvm::memory::MerkleTrie;
 use nexus_jolt::{parse, preprocess, trace, JoltCommitments, JoltProof};
 use nexus_tools_dev::command::common::prove::CommonProveArgs;
-use nexus_api::nvm::memory::MerkleTrie;
 
 use anyhow::Context;
 use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
