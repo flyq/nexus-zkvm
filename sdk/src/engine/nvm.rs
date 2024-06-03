@@ -1,9 +1,14 @@
+use super::*;
+
 struct NVMEngine {
     type Memory = impl Memory;
 
     vm: Option<NexusVM<Self::Memory>>,
+    config: Option<VmConfig>,
 
     prover: Option<impl Prover>,
+
+    k: usize,
 
     proving: bool,
     debug_execution: bool,
@@ -61,7 +66,7 @@ impl Engine for NVMEngine {
     }
 
     fn generate(&self) -> Result<Self, Error> {
-        self.prover.gen_pp()?;
+        self.prover.generate(self.k)?;
         self
     };
 

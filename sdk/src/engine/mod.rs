@@ -33,12 +33,18 @@ pub trait Engine: Default + Clone {
         self
     }
 
-    /// Print debugging trace of the VM execution. 
+    /// Print debugging trace of the VM execution.
     fn enable_debug_execution_mode(
         &mut self,
     ) -> Result<Self, Error> {
         self.debug_execution = true;
         self
+    }
+
+    /// Set `k` parameter that captures how many VM cycles should be proven per step.
+    fn set_k(&mut self, k: usize) -> Result<Self, Error> {
+        self.k = k;
+        self;
     }
 
     // input
@@ -76,13 +82,13 @@ pub trait Engine: Default + Clone {
     fn reset(&self) -> Result<Self, Error>;
 
     // status
-    
+
     /// Indicates whether configured to generate a proof when executing.
     fn proving(&self) -> bool {
         self.proving
     }
 
-    /// Indicates whether configured to print debug output for program execution. 
+    /// Indicates whether configured to print debug output for program execution.
     fn debugging_execution(&self) -> bool {
         self.debug_execution
     }
@@ -108,4 +114,3 @@ pub trait Engine: Default + Clone {
     }
 
 }
-
