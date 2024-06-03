@@ -1,9 +1,12 @@
 struct NVMEngine {
-    type Memory = MerkleTrie;
+    type Memory = impl Memory;
 
     vm: Option<NexusVM<Self::Memory>>,
 
     prover: Option<impl Prover>,
+
+    proving: bool,
+    debug_execution: bool,
 
     started: bool,
     halted: bool,
@@ -24,8 +27,8 @@ impl Engine for NVMEngine {
         // check if input already set
 
         let mut serialized = postcard::to_stdvec(input)?;
-        vm.set_input(serialized.to_slice());
 
+        vm.set_input(serialized.to_slice());
         self
     }
 
@@ -40,7 +43,6 @@ impl Engine for NVMEngine {
         // check if input already set
 
         vm.set_input(input);
-
         self
     }
 
@@ -57,6 +59,45 @@ impl Engine for NVMEngine {
     ) -> Result<Self, Error> {
         unimplemented!()
     }
+
+    fn generate(&self) -> Result<Self, Error> {
+        self.prover.gen_pp()?;
+        self
+    };
+
+    fn execute(&self) -> Result<Self, Error> {
+        if self.proving {
+            return self.prove();
+        }
+
+        self.started = true;
+        nvm::interactive::eval(&mut self.vm, self.debug_execution)?;
+        self.halted = true;
+
+        self
+    };
+
+    fn prove(&self) -> Result<Self, Error> {
+        self.prover.prove()?;
+
+        self.proven = true;
+        self
+    };
+
+    fn verify(&self) -> Result<Self, Error> {
+        self.prover.verify()?;
+
+        self.verified = true;
+        self
+    };
+
+    fn rewind(&self) -> Result<Self, Error> {
+
+    };
+
+    fn reset(&self) -> Result<Self, Error> {
+
+    };
 
 }
 
