@@ -17,6 +17,7 @@ ark-relations.workspace = true
 ark-serialize.workspace = true
 ark-r1cs-std.workspace = true
 ark-bn254.workspace = true
+serde.workspace = true
 
 tracing = { version = "0.1", default-features = false, features = ["std"] }
 nexus-api = { path = "../api", features = ["verbose"] }

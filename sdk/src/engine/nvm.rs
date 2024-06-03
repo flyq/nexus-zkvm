@@ -10,18 +10,46 @@ struct NVMEngine {
 
     k: usize,
 
-    proving: bool,
-    debug_execution: bool,
+    _proving: bool,
+    _debug_execution: bool,
 
-    started: bool,
-    halted: bool,
-    proven: bool,
-    verified: bool,
+    _started: bool,
+    _halted: bool,
+    _proven: bool,
+    _verified: bool,
 }
 
 impl Engine for NVMEngine {
 
-    fn set_input<T: Serialize + Deserialize>(
+    fn load(
+        &mut self,
+        path: &PathBuf
+    ) -> Result<Self, NexusError> {
+        self.vm = load_elf::<Self::Memory>(path)?;
+        self
+    }
+
+
+    fn enable_prover_mode(
+        &mut self,
+    ) -> Result<Self, NexusError> {
+        self.proving = true;
+        self
+    }
+
+    fn enable_debug_execution_mode(
+        &mut self,
+    ) -> Result<Self, NexusError> {
+        self.debug_execution = true;
+        self
+    }
+
+    fn set_k(&mut self, k: usize) -> Result<Self, NexusError> {
+        self.k = k;
+        self;
+    }
+
+    fn set_input<T: Serialize>(
         &self,
         input: T
     ) -> Result<Self, Error> {
@@ -37,7 +65,7 @@ impl Engine for NVMEngine {
         self
     }
 
-    fn set_input_bytes<T: Serialize + Deserialize>(
+    fn set_input_bytes<T: Serialize>(
         &self,
         input: &[u8],
     ) -> Result<Self, Error> {
@@ -51,14 +79,14 @@ impl Engine for NVMEngine {
         self
     }
 
-    fn set_public_input<T: Serialize + Deserialize>(
+    fn set_public_input<T: Serialize>(
         &self,
         input: T
     ) -> Result<Self, Error> {
         unimplemented!()
     }
 
-    fn set_public_input_bytes<T: Serialize + Deserialize>(
+    fn set_public_input_bytes<T: Serialize>(
         &self,
         input: &[u8],
     ) -> Result<Self, Error> {
@@ -103,6 +131,30 @@ impl Engine for NVMEngine {
     fn reset(&self) -> Result<Self, Error> {
 
     };
+
+    fn proving(&self) -> bool {
+        self._proving
+    }
+
+    fn debugging_execution(&self) -> bool {
+        self._debug_execution
+    }
+
+    fn started(&self) -> bool {
+        self._started
+    }
+
+    fn halted(&self) -> bool {
+        self._halted
+    }
+
+    fn proven(&self) -> bool {
+        self._proven
+    }
+
+    fn verified(&self) -> bool {
+        self._verified
+    }
 
 }
 
