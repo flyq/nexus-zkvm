@@ -10,6 +10,7 @@ keywords = { workspace = true }
 categories = { workspace = true }
 
 [dependencies]
+ark-ec.workspace = true
 ark-ff.workspace = true
 ark-crypto-primitives.workspace = true
 ark-std.workspace = true

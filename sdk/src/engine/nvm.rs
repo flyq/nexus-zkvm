@@ -1,5 +1,8 @@
 use super::*;
+use super::super::error::NexusError;
 
+
+#[derive(Clone)]
 struct NVMEngine {
     type Memory = impl Memory;
 
