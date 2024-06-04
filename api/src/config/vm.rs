@@ -7,8 +7,8 @@ use super::Config;
 
 #[derive(serde_wrapper::Deserialize)]
 pub struct VmConfig {
-    pub k: usize,
     pub prover: ProverImpl,
+    pub opts: Option<nexus_vm::VMOpts>,
 }
 
 #[derive(Debug, Copy, Clone, PartialEq)]

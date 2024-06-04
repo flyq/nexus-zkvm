@@ -92,9 +92,6 @@ lto = true
 [profile.release-unoptimized]
 inherits = "release"
 
-[profile.release-unoptimized.package.example]
-opt-level = 0
-
 [profile.bench]
 inherits = "release"
 debug = true

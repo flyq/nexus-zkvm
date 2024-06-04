@@ -75,7 +75,7 @@ pub fn parse_elf<M: Memory>(bytes: &[u8]) -> Result<NexusVM<M>> {
 
 /// A structure describing a VM to load.
 /// This structure can be used with clap.
-#[derive(Default, Debug, Args)]
+#[derive(Default, Debug, Args, serde::Deserialize)]
 pub struct VMOpts {
     /// Instructions per step
     #[arg(short, name = "k", default_value = "1")]

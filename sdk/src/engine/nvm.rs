@@ -17,6 +17,8 @@ struct NVMEngine {
     _halted: bool,
     _proven: bool,
     _verified: bool,
+
+    _private_input: bool,
 }
 
 impl Engine for NVMEngine {
@@ -29,6 +31,23 @@ impl Engine for NVMEngine {
         self
     }
 
+    fn from_config(
+        &mut self,
+        config: NexusVMConfig
+    ) -> Result<Self, NexusError> {
+        self.set_k(config.opts.k);
+
+        if Some(name) = config.opts.machine {
+            self.load_test_machine(name);
+        }
+
+        if Some(path) = config.opts.file {
+            self.load(path);
+        }
+
+        self.set_defaulted_prover(config.prover);
+        self
+    };
 
     fn enable_prover_mode(
         &mut self,
@@ -43,6 +62,30 @@ impl Engine for NVMEngine {
         self.debug_execution = true;
         self
     }
+
+    fn set_defaulted_prover(
+        &mut self,
+        prover: &ProverImpl
+    ) -> Result<Self, NexusError> {
+        self.prover = build_prover.get(prover);
+
+        if self.prover.is_none() {
+            // do stuff
+        }
+
+        self.check_compat()?;
+        self
+    };
+
+    fn set_prover(
+        &mut self,
+        prover: &impl Prover
+    ) -> Result<Self, NexusError> {
+        self.prover = Some(prover);
+
+        self.check_compat()?;
+        self
+    };
 
     fn set_k(&mut self, k: usize) -> Result<Self, NexusError> {
         self.k = k;
@@ -62,6 +105,8 @@ impl Engine for NVMEngine {
         let mut serialized = postcard::to_stdvec(input)?;
 
         vm.set_input(serialized.to_slice());
+
+        self._private_input = true;
         self
     }
 
@@ -76,6 +121,8 @@ impl Engine for NVMEngine {
         // check if input already set
 
         vm.set_input(input);
+
+        self._private_input = true;
         self
     }
 

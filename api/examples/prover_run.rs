@@ -3,14 +3,18 @@
 use nexus_api::config::vm::NovaImpl;
 use nexus_api::{
     config::vm::{ProverImpl, VmConfig},
-    nvm::{self, memory::MerkleTrie, NexusVM},
+    nvm::{self, memory::MerkleTrie, NexusVM, VMOpts},
     prover::{self},
 };
 use std::path::PathBuf;
 
 const CONFIG: VmConfig = VmConfig {
-    k: 1,
     prover: ProverImpl::Nova(NovaImpl::Sequential),
+    opts: VMOpts {
+        k: 1,
+        machine: None,
+        file: None,
+    },
 };
 
 fn main() {
@@ -21,7 +25,7 @@ fn main() {
 
     println!("Setting up public parameters...");
     let public_params =
-        prover::setup::gen_vm_pp(CONFIG.k, &()).expect("error generating public parameters");
+        prover::setup::gen_vm_pp(CONFIG.opts.k, &()).expect("error generating public parameters");
 
     println!("Reading and translating vm...");
     let mut vm: NexusVM<MerkleTrie> =

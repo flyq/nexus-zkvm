@@ -1,4 +1,4 @@
-use super::*
+use super::*;
 
 struct NovaProver {
     pp: PublicParams,
