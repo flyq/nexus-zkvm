@@ -6,6 +6,7 @@ pub mod srs;
 
 pub mod types;
 
+use core::marker::PhantomData;
 use std::path::Path;
 
 use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
@@ -17,7 +18,7 @@ use nexus_nova::nova::pcd::compression::SNARK;
 use crate::prover::{
     circuit::Tr,
     error::ProofError,
-    types::{ComPCDNode, ComPP, ComProof, IVCProof, PCDNode, ParPP, SeqPP, SpartanKey},
+    types::{ComPCDNode, ComPP, ComProof, IVCProof, PCDNode, ParPP, SeqPP, SpartanKey, F1},
 };
 
 #[cfg(feature = "verbose")]
@@ -72,7 +73,7 @@ pub fn run(opts: &VMOpts, pow: bool) -> Result<Trace, ProofError> {
 
 pub fn prove_seq(pp: &SeqPP, trace: Trace) -> Result<IVCProof, ProofError> {
     // let k = trace.k;
-    let tr = Tr(trace);
+    let tr = Tr::<F1, nexus_vm::memory::path::Path>(trace, PhantomData);
     let icount = tr.instructions();
     let z_0 = tr.input(0)?;
     let mut proof = IVCProof::new(&z_0);

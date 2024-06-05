@@ -8,6 +8,7 @@ use crate::prover::circuit::{nop_circuit, Tr};
 use crate::prover::error::*;
 use crate::prover::types::*;
 use crate::prover::{LOG_TARGET, TERMINAL_MODE};
+use nexus_vm::memory::path::Path;
 
 pub fn gen_pp<C, SP>(circuit: &SC, aux: &C::SetupAux) -> Result<PP<C, SP>, ProofError>
 where
@@ -43,18 +44,20 @@ where
     Ok(pp)
 }
 
-pub fn gen_vm_pp<C, SP>(k: usize, aux: &C::SetupAux) -> Result<PP<C, SP>, ProofError>
+pub fn gen_vm_pp<C, SP, F, M>(k: usize, aux: &C::SetupAux) -> Result<PP<C, SP>, ProofError>
 where
-    SP: SetupParams<G1, G2, C, C2, RO, Tr>,
+    SP: SetupParams<G1, G2, C, C2, RO, Tr<F1, Path>>,
     C: CommitmentScheme<P1>,
+    F: PrimeField,
+    M: Memory,
 {
-    let tr = nop_circuit(k)?;
+    let tr = nop_circuit::<F, M>::(k)?;
     gen_pp(&tr, aux)
 }
 
 fn show_pp<C, SP>(pp: &PP<C, SP>)
 where
-    SP: SetupParams<G1, G2, C, C2, RO, Tr>,
+    SP: SetupParams<G1, G2, C, C2, RO, Tr<F1, Path>>,
     C: CommitmentScheme<P1>,
 {
     tracing::debug!(
@@ -158,7 +161,7 @@ pub fn gen_or_load<C, SP>(
     aux_opt: Option<&C::SetupAux>,
 ) -> Result<PP<C, SP>, ProofError>
 where
-    SP: SetupParams<G1, G2, C, C2, RO, Tr> + Sync,
+    SP: SetupParams<G1, G2, C, C2, RO, Tr<F1, Path>> + Sync,
     C: CommitmentScheme<P1>,
 {
     let mut term = nexus_tui::TerminalHandle::new(TERMINAL_MODE);
