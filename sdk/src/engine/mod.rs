@@ -1,14 +1,10 @@
+use super::error::NexusError;
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
-use super::error::NexusError;
 
 use nexus_api::{
-    nvm::{interactive::{load_elf},
-          memory::Memory,
-          NexusVMError,
-          NexusVM,
-    },
     config::vm::ProverImpl,
+    nvm::{interactive::load_elf, memory::Memory, NexusVM, NexusVMError},
 };
 
 use super::prover::Prover;
@@ -103,5 +99,4 @@ pub trait Engine: Default + Clone {
 
     /// Indicates whether proof of program execution has been verified..
     fn verified(&self) -> bool;
-
 }
