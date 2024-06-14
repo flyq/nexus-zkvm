@@ -28,11 +28,11 @@ pub trait Engine: Default + Clone {
     /// Load VM configuration from a `NexusVMConfig` object.
     fn from_config(&mut self, config: NexusVMConfig) -> Result<Self, NexusError>;
 
-    /// When executing the VM, generate a proof.
-    fn enable_prover_mode(&mut self) -> Result<Self, NexusError>;
-
     /// Print debugging trace of the VM execution.
     fn enable_debug_execution_mode(&mut self) -> Result<Self, NexusError>;
+
+    /// Print debugging trace of the VM execution.
+    fn enable_prover_mode(&mut self) -> Result<Self, NexusError>;
 
     /// Set choice of prover, using its defaults.
     fn set_defaulted_prover(&mut self, prover: &ProverImpl) -> Result<Self, NexusError>;
@@ -42,9 +42,6 @@ pub trait Engine: Default + Clone {
 
     /// Set `k` parameter that captures how many VM cycles should be proven per step.
     fn set_k(&mut self, k: usize) -> Result<Self, NexusError>;
-
-    /// Confirm configuration is compatible with engine.
-    fn check_compat(&self) -> Result<Self, NexusError>;
 
     // input
 
@@ -97,6 +94,6 @@ pub trait Engine: Default + Clone {
     /// Indicates whether program execution has been proven.
     fn proven(&self) -> bool;
 
-    /// Indicates whether proof of program execution has been verified..
+    /// Indicates whether proof of program execution has been verified.
     fn verified(&self) -> bool;
 }
