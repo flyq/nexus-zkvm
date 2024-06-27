@@ -1,23 +1,31 @@
 trait ExecutionState {}
- 
-enum Uninitialized {};
-impl ExecutionState for Uninitialized {};
 
-enum Initialized {};
-impl ExecutionState for Initialized {};
+enum Uninitialized {}
+impl ExecutionState for Uninitialized {}
 
-enum Evaluated {};
-impl ExecutionState for Executed {};
+enum Initialized {}
+impl ExecutionState for Initialized {}
 
-trait Prover {
+enum Traced {}
+impl ExecutionState for Traced {}
 
+trait Compute {}
+
+enum Local {}
+impl Local for Compute {}
+
+//enum Cloud {}
+//impl Cloud for Compute {}
+
+trait Prover<S: ExecutionState = Uninitialized, C: Compute = Local> {
+    type Memory;
+    type Params;
+    type Proof;
+    type Error;
 }
-
 
 trait Verifiable {
     type Error;
 
     fn verify(&self) -> Result<(), Self::Error>;
 }
-
-trait
