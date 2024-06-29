@@ -149,7 +149,7 @@ fn verify_proof_compressed(
     Ok(())
 }
 
-fn verify_proof(
+pub fn verify_proof(
     path: &Path,
     k: usize,
     prover: ProverImpl,
