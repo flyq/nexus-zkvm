@@ -53,7 +53,7 @@ pub fn handle_command(args: VerifyArgs) -> anyhow::Result<()> {
     }
 }
 
-fn verify_proof_compressed(
+pub fn verify_proof_compressed(
     path: &Path,
     k: usize,
     pp_file: Option<PathBuf>,
@@ -128,7 +128,7 @@ fn verify_proof_compressed(
     Ok(())
 }
 
-fn verify_proof(
+pub fn verify_proof(
     path: &Path,
     k: usize,
     nova_impl: NovaImpl,
