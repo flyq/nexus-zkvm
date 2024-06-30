@@ -55,6 +55,12 @@ pub fn handle_command(args: VerifyArgs) -> anyhow::Result<()> {
     if compressed {
         verify_proof_compressed(&file, k.unwrap_or(vm_config.k), pp_file, key_file)
     } else {
+        println!("path: {:?}", file);
+        println!("k: {:?}", vm_config.k);
+        println!("vm_config.prover: {:?}", vm_config.prover);
+        println!("common_args: {:?}", common_args);
+        println!("pp_file: {:?}", pp_file);
+
         verify_proof(
             &file,
             k.unwrap_or(vm_config.k),
