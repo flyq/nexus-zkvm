@@ -35,12 +35,11 @@ pub fn handle_command(args: VerifyArgs) -> anyhow::Result<()> {
     println!("prover_impl: {:?}", nova_impl);
 
     println!("key_file: {:?}", key_file);
-    println!("common_args: {:?}", common_args);
 
     let vm_config = VmConfig::from_env()?;
 
     println!("vm_config.k: {:?}", vm_config.k);
-    println!("vm_config.prover: {:?}", vm_config.prover);
+    println!("vm_config.prover: {:?}", vm_config.nova_impl);
 
     if compressed {
         verify_proof_compressed(&file, k.unwrap_or(vm_config.k), pp_file, key_file)
