@@ -25,8 +25,23 @@ pub fn handle_command(args: VerifyArgs) -> anyhow::Result<()> {
         prover_args: LocalProveArgs { k, pp_file, nova_impl, .. },
         key_file,
     } = args;
+    println!("handle verify");
+
+    println!("path: {:?}", file);
+    println!("compressed: {}", compressed);
+
+    println!("k: {:?}", k);
+    println!("pp_file: {:?}", pp_file);
+    println!("prover_impl: {:?}", nova_impl);
+
+    println!("key_file: {:?}", key_file);
+    println!("common_args: {:?}", common_args);
 
     let vm_config = VmConfig::from_env()?;
+
+    println!("vm_config.k: {:?}", vm_config.k);
+    println!("vm_config.prover: {:?}", vm_config.prover);
+
     if compressed {
         verify_proof_compressed(&file, k.unwrap_or(vm_config.k), pp_file, key_file)
     } else {
